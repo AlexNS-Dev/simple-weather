@@ -1,0 +1,57 @@
+.Header {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+
+    height: 4em;
+    padding: 0 2em;
+
+    h1 {
+        span {
+            color: var(--clr-accent);
+        }
+    }
+
+    .search-location {
+        justify-self: center;
+        display: flex;
+        align-items: center;
+        gap: .5em;
+
+        padding: .5em .75em;
+        border-radius: 10em;
+        width: 70%;
+
+        background-color: color-mix(in srgb, transparent 50%, #1a1a1a 50%);
+
+        cursor: text;
+
+        input[name='search-location'] {
+            flex: 1;
+
+            border: none;
+            outline: none;
+            background-color: transparent;
+            color: inherit;
+        }
+
+        .circle-spinner-custom {
+            background-color: tomato;
+        }
+    }
+
+    .current-location {
+        justify-self: end;
+        display: flex;
+        align-items: center;
+        gap: .5em;
+
+        padding: .5em .75em;
+        border-radius: 10em;
+
+        background-color: var(--clr-accent);
+        color: #242424;
+
+        cursor: pointer;
+    }
+}

@@ -1,3 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Victor+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
+:root {
+  font-family: "Victor Mono", monospace;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: italic;
+
+  --clr-accent: rgb(0, 220, 220);
+}
+
 .App {
   height: 100dvh;
   width: 100dvw;
