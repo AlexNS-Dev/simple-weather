@@ -13,7 +13,11 @@ const Header = () => {
     return (
         <div className='Header'>
             {/* App Title */}
-            <h1 className='app-title'><span>s</span>Weather<span>.</span></h1>
+            <h1 className='app-title'>
+                <span refl-text='s'>s</span>
+                <span refl-text='Weather'>Weather</span>
+                <span refl-text='.'>.</span>
+            </h1>
 
             {/* Search location weather */}
             <div className="search-location" onClick={() => searchInput.current?.focus()}>
@@ -30,7 +34,7 @@ const Header = () => {
                     <ImpulseSpinnerWrapper
                         size={20}
                         frontColor='var(--clr-accent)'
-                        loading={true}
+                        loading={false}
                     />
                 </span>
             </div>

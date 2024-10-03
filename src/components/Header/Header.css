@@ -8,7 +8,32 @@
 
     h1 {
         span {
-            color: var(--clr-accent);
+            position: relative;
+
+            &::before {
+                content: attr(refl-text);
+                position: absolute;
+                transform: scaleY(-1);
+                transform-origin: 0% 85%;
+
+                background: linear-gradient(to top, var(--clr-txt), transparent 45%);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                opacity: .5;
+            }
+
+            &:first-child,
+            &:last-child {
+                color: var(--clr-accent);
+
+                &::before {
+                    background: linear-gradient(to top, var(--clr-accent), transparent 45%);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    color: transparent;
+                }
+            }
         }
     }
 
