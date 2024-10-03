@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react'
 import './Header.css'
 import { IoSearch } from 'react-icons/io5'
-import { ImpulseSpinner } from 'react-spinners-kit'
 import { TbCurrentLocation } from 'react-icons/tb'
+import ImpulseSpinnerWrapper from '../../wrappers/ImpulseSpinnerWrapper'
 
 // const apiKey = import.meta.env.VITE_OW_API_KEY
 
@@ -26,17 +26,19 @@ const Header = () => {
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                 />
-                <ImpulseSpinner
-                    size={20}
-                    frontColor='var(--clr-accent)'
-                    loading={true}
-                />
+                <span className='search-loader'>
+                    <ImpulseSpinnerWrapper
+                        size={20}
+                        frontColor='var(--clr-accent)'
+                        loading={true}
+                    />
+                </span>
             </div>
 
             {/* Current location weather */}
             <div className="current-location">
                 <TbCurrentLocation />
-                <span>Current Location</span>
+                <span>Current location</span>
             </div>
         </div>
     )

@@ -20,14 +20,17 @@
 
         padding: .5em .75em;
         border-radius: 10em;
-        width: 70%;
+        min-width: 70%;
+        max-width: 100%;
 
-        background-color: color-mix(in srgb, transparent 50%, #1a1a1a 50%);
+        background-color: color-mix(in srgb, var(--clr-bg) 50%, var(--card-bg) 50%);
 
         cursor: text;
+        position: relative;
 
         input[name='search-location'] {
             flex: 1;
+            margin-right: calc(24px + .5em);
 
             border: none;
             outline: none;
@@ -35,8 +38,14 @@
             color: inherit;
         }
 
-        .circle-spinner-custom {
-            background-color: tomato;
+        .search-loader {
+            position: absolute;
+            align-content: center;
+
+            width: 24px;
+            height: 24px;
+
+            right: .75em;
         }
     }
 
