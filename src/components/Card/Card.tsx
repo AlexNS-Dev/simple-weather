@@ -48,7 +48,7 @@ const Card: React.FC<CardProps> = ({
 
     return (
         <div
-            className={`Card ${cornerSize} ${className}`}
+            className={`Card ${cornerSize ? cornerSize : ''} ${className}`}
             style={{ ...defaultStyles, ...style }}
         >
             {children}
