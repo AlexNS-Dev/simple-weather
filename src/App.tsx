@@ -40,7 +40,7 @@ function App() {
     return (
         <div className="App">
             <Header />
-            <main style={{ padding: '1em' }}>
+            <main>
                 <TodaysWeather />
             </main>
         </div>

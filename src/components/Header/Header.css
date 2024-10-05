@@ -3,7 +3,7 @@
     grid-template-columns: repeat(3, 1fr);
     align-items: center;
 
-    height: 4em;
+    height: var(--height-header);
     padding: 0 2em;
 
     h1 {

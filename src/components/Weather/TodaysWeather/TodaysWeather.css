@@ -1,0 +1,21 @@
+.TodaysWeather {
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+
+    .panel {
+        display: flex;
+        flex-direction: column;
+        gap: .5em;
+    }
+
+    .temperature {
+        font-size: 3em;
+    }
+
+    .spaced-row {
+        display: flex;
+        align-items: center;
+        gap: .75em;
+    }
+}

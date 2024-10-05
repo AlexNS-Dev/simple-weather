@@ -7,6 +7,8 @@
   --card-bg: #1a1a1a;
   --clr-accent: #00dcdc;
 
+  --height-header: 4em;
+
   /* THEME */
   color-scheme: light dark;
   color: var(--clr-txt);
@@ -34,5 +36,18 @@
 .App {
   height: 100dvh;
   width: 100dvw;
-  overflow: hidden auto;
+  overflow: hidden;
+
+  main {
+    height: calc(100dvh - var(--height-header));
+    padding: 1em;
+
+    overflow: hidden auto;
+
+    border: 1px solid red;
+  }
+}
+
+.capitalize {
+  text-transform: capitalize;
 }
