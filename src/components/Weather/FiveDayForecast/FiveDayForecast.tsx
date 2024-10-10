@@ -11,18 +11,43 @@ const FiveDayForecast = () => {
     const currentLocation = useWeatherStore((state) => state.currentLocation)
 
     const formatDate = (date: Date) => {
-        const monthFormattedDate = date.toLocaleDateString('es-ES', {
+        const monthFormattedDate = date.toLocaleDateString(undefined, {
             day: 'numeric',
             month: 'short',
         })
-        const weekDayFormattedDate = date.toLocaleDateString('es-ES', {
+        const weekDayFormattedDate = date.toLocaleDateString(undefined, {
             weekday: 'long',
         })
         return { monthFormattedDate, weekDayFormattedDate }
     }
 
     useEffect(() => {
-        fetchForecast(currentLocation)
+        // Obtener la ubicación actual del usuario
+        const getLocation = () => {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    fetchForecast({ lat: latitude, lon: longitude });
+                },
+                (error) => {
+                    console.error("Error getting current location:", error);
+                    if (currentLocation) {
+                        fetchForecast(currentLocation);
+                    }
+                }
+            );
+        };
+
+        getLocation()
+
+        const interval = setInterval(() => {
+            if (currentLocation) {
+                fetchForecast(currentLocation)
+            }
+        }, 3600000); // Refrescar datos cada 1 hora
+
+        return () => clearInterval(interval)
+
     }, [currentLocation])
 
     if (!forecastData) return

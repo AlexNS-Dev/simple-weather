@@ -2,9 +2,41 @@ import Card from '../../Card/Card'
 import './TodaysWeather.css'
 import useWeatherStore from '../../stores/weatherStore';
 import { IoCalendarNumberOutline, IoLocationOutline } from 'react-icons/io5'
+import { useEffect } from 'react';
 
 const TodaysWeather = () => {
     const currentWeatherData = useWeatherStore((state) => state.currentWeatherData)
+    const fetchCurrentWeather = useWeatherStore((state) => state.fetchCurrentWeather)
+    const currentLocation = useWeatherStore((state) => state.currentLocation)
+
+    useEffect(() => {
+        // Obtener la ubicación actual del usuario
+        const getLocation = () => {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    fetchCurrentWeather({ lat: latitude, lon: longitude });
+                },
+                (error) => {
+                    console.error("Error getting current location:", error);
+                    if (currentLocation) {
+                        fetchCurrentWeather(currentLocation);
+                    }
+                }
+            );
+        };
+
+        getLocation()
+
+        const interval = setInterval(() => {
+            if (currentLocation) {
+                fetchCurrentWeather(currentLocation)
+            }
+        }, 3600000); // Refrescar datos cada 1 hora
+
+        return () => clearInterval(interval)
+
+    }, [currentLocation])
 
     if (!currentWeatherData) return
 
@@ -13,7 +45,7 @@ const TodaysWeather = () => {
         day: 'numeric',
         month: 'short',
     }
-    const formattedDate = `${new Date().toLocaleDateString('es-ES', dateOptions)}`
+    const formattedDate = `${new Date().toLocaleDateString(undefined, dateOptions)}`
 
     return (
         <div className='TodaysWeather'>
