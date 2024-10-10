@@ -30,7 +30,7 @@ const FiveDayForecast = () => {
                     fetchForecast({ lat: latitude, lon: longitude });
                 },
                 (error) => {
-                    console.error("Error getting current location:", error);
+                    console.warn("Error getting current location:", error);
                     if (currentLocation) {
                         fetchForecast(currentLocation);
                     }

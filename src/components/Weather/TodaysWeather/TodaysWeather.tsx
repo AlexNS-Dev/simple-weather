@@ -18,7 +18,7 @@ const TodaysWeather = () => {
                     fetchCurrentWeather({ lat: latitude, lon: longitude });
                 },
                 (error) => {
-                    console.error("Error getting current location:", error);
+                    console.warn("Error getting current location:", error);
                     if (currentLocation) {
                         fetchCurrentWeather(currentLocation);
                     }
