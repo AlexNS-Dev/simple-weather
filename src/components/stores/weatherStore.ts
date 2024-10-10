@@ -1,25 +1,28 @@
 import { create } from 'zustand'
-import { WeatherData } from '../../types';
+import { CurrentWeatherData, FiveDayForecastData } from '../../types';
 
 const apiKey = import.meta.env.VITE_OW_API_KEY
 const apiBaseUrl = import.meta.env.VITE_OW_BASE_URL
 
 interface WeatherState {
-    weatherData: WeatherData | null,
+    currentWeatherData: CurrentWeatherData | null,
+    fiveDayForecastData: FiveDayForecastData[] | null,
     loading: boolean,
     error: string | null,
     currentLocation: string,
     setLocation: (location: string) => void,
-    fetchWeather: (location: string | { lat: number, lon: number }) => void,
+    fetchCurrentWeather: (location: string | { lat: number, lon: number }) => void,
+    fetchFiveDayForecast: (location: string | { lat: number, lon: number }) => void,
 }
 
 const useWeatherStore = create<WeatherState>((set) => ({
-    weatherData: null,
+    currentWeatherData: null,
+    fiveDayForecastData: null,
     loading: false,
     error: null,
     currentLocation: 'Barcelona',
     setLocation: (location) => set({ currentLocation: location }),
-    fetchWeather: async (location) => {
+    fetchCurrentWeather: async (location) => {
         set({ loading: true, error: null })
         try {
             let url
@@ -35,12 +38,36 @@ const useWeatherStore = create<WeatherState>((set) => ({
                 throw new Error('Failed to fetch weather data');
             }
 
-            const data: WeatherData = await response.json()
-            set({ weatherData: data, loading: false })
+            const data: CurrentWeatherData = await response.json()
+            set({ currentWeatherData: data, loading: false })
 
         } catch (e) {
             set({ error: (e as Error).message, loading: false })
         }
+    },
+    fetchFiveDayForecast: (location) => {
+        set({ loading: true, error: null })
+        let url
+        if (typeof location === 'string') {
+            url = `${apiBaseUrl}/forecast?q=${location}&appid=${apiKey}&units=metric`
+        } else {
+            const { lat, lon } = location
+            url = `${apiBaseUrl}/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
+        }
+
+        fetch(url)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch forecast data')
+                }
+                return response.json()
+            })
+            .then((data) => {
+                set({ fiveDayForecastData: data.list, loading: false })
+            })
+            .catch((err) => {
+                set({ error: err.message, loading: false })
+            })
     },
 }))
 

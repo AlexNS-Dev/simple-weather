@@ -4,11 +4,9 @@ import useWeatherStore from '../../stores/weatherStore';
 import { IoCalendarNumberOutline, IoLocationOutline } from 'react-icons/io5'
 
 const TodaysWeather = () => {
-    const weatherData = useWeatherStore((state) => state.weatherData)
+    const currentWeatherData = useWeatherStore((state) => state.currentWeatherData)
 
-    if (!weatherData) return
-
-    console.log(weatherData);
+    if (!currentWeatherData) return
 
     const dateOptions: Intl.DateTimeFormatOptions = {
         weekday: 'long',
@@ -28,11 +26,11 @@ const TodaysWeather = () => {
                 <span>Now</span>
 
                 <div className='temperature spaced-row'>
-                    <span>{Math.round(weatherData.main.temp)}°C</span>
-                    <img src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`} alt="Current weather image icon" />
+                    <span>{Math.round(currentWeatherData.main.temp)}°C</span>
+                    <img src={`https://openweathermap.org/img/wn/${currentWeatherData.weather[0].icon}@2x.png`} alt="Current weather image icon" />
                 </div>
 
-                <span className='todays-weather_description capitalize'>{weatherData.weather[0].description}</span>
+                <span className='todays-weather_description capitalize'>{currentWeatherData.weather[0].description}</span>
 
                 <br />
                 <hr />
@@ -44,7 +42,7 @@ const TodaysWeather = () => {
                 </div>
                 <div className='spaced-row'>
                     <IoLocationOutline size={20} />
-                    <span>{weatherData.name}, {weatherData.sys.country}</span>
+                    <span>{currentWeatherData.name}, {currentWeatherData.sys.country}</span>
                 </div>
             </Card>
         </div>

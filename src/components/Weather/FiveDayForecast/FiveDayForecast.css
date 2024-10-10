@@ -1,0 +1,32 @@
+.FiveDayForecast {
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+
+    ul {
+        padding: 0;
+        list-style: none;
+
+        li.list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .temperature {
+                display: flex;
+                align-items: center;
+
+                img {
+                    max-height: 5em;
+                }
+            }
+
+            .month-date{
+            }
+
+            .weekday {
+                text-transform: capitalize;
+            }
+        }
+    }
+}
