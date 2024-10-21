@@ -1,12 +1,13 @@
 import { create } from 'zustand'
-import { CurrentWeatherData, FiveDayForecastData } from '../../types';
+import { CurrentWeatherData, ForecastData } from '../../types';
 
 const apiKey = import.meta.env.VITE_OW_API_KEY
 const apiBaseUrl = import.meta.env.VITE_OW_BASE_URL
 
 interface WeatherState {
     currentWeatherData: CurrentWeatherData | null,
-    fiveDayForecastData: FiveDayForecastData[] | null,
+    fiveDayForecastData: ForecastData[] | null,
+    hourlyForecastData: ForecastData[] | null,
     loading: boolean,
     error: string | null,
     currentLocation: string,
@@ -18,6 +19,7 @@ interface WeatherState {
 const useWeatherStore = create<WeatherState>((set) => ({
     currentWeatherData: null,
     fiveDayForecastData: null,
+    hourlyForecastData: null,
     loading: false,
     error: null,
     currentLocation: 'Barcelona',
@@ -63,7 +65,19 @@ const useWeatherStore = create<WeatherState>((set) => ({
                 return response.json()
             })
             .then((data) => {
-                set({ fiveDayForecastData: data.list, loading: false })
+                const timezoneOffset = data.city.timezone * 1000;
+                const currentTime = new Date().getTime();
+
+                const filteredData = data.list.filter((item: { dt: number }) => {
+                    const itemTime = new Date(item.dt * 1000).getTime() + timezoneOffset; // Ajuste de zona horaria
+                    return itemTime >= currentTime; // Asegura que solo se capturan las predicciones futuras
+                }).slice(0, 8);
+
+                set({
+                    fiveDayForecastData: data.list,
+                    hourlyForecastData: filteredData, // Almacena el pronóstico horario filtrado
+                    loading: false,
+                })
             })
             .catch((err) => {
                 set({ error: err.message, loading: false })

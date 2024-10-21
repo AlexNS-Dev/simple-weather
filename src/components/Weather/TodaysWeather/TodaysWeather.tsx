@@ -68,11 +68,11 @@ const TodaysWeather = () => {
                 <hr />
                 <br />
 
-                <div className='spaced-row capitalize'>
+                <div className='footer spaced-row capitalize'>
                     <IoCalendarNumberOutline size={20} />
                     <span>{formattedDate}</span>
                 </div>
-                <div className='spaced-row'>
+                <div className='footer spaced-row'>
                     <IoLocationOutline size={20} />
                     <span>{currentWeatherData.name}, {currentWeatherData.sys.country}</span>
                 </div>

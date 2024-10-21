@@ -40,7 +40,7 @@ export interface CurrentWeatherData {
     cod: number; // Código de respuesta del API (p.ej. 200 para éxito)
 }
 
-export interface FiveDayForecastData {
+export interface ForecastData {
     dt_txt: string; // La fecha y hora en formato string
     main: {
         temp: number; // La temperatura principal
@@ -54,6 +54,7 @@ export interface FiveDayForecastData {
         icon: string; // Icono del clima (ej. "04d")
     }[];
     wind: {
+        deg: number; // Direccion del viento
         speed: number; // Velocidad del viento
     };
     clouds: {

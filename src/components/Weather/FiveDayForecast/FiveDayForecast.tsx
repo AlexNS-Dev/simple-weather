@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import Card from '../../Card/Card'
 import useWeatherStore from '../../stores/weatherStore'
 import './FiveDayForecast.css'
-import { FiveDayForecastData } from '../../../types'
+import { ForecastData } from '../../../types'
 
 const FiveDayForecast = () => {
     const forecastData = useWeatherStore((state) => state.fiveDayForecastData)
@@ -52,7 +52,7 @@ const FiveDayForecast = () => {
 
     if (!forecastData) return
 
-    const dailyForecast = forecastData.filter((forecast: FiveDayForecastData) => 
+    const dailyForecast = forecastData.filter((forecast: ForecastData) => 
         forecast.dt_txt.includes('12:00:00') // Seleccionar solo las entradas que ocurren a las 12:00 PM
     ).slice(0, 5)
 
@@ -65,7 +65,7 @@ const FiveDayForecast = () => {
                 backgroundColor='var(--card-bg)'
             >
                 <ul>
-                    {dailyForecast.map((forecastItem: FiveDayForecastData, index: number) => {
+                    {dailyForecast.map((forecastItem: ForecastData, index: number) => {
                         const forecastDate = new Date(forecastItem.dt_txt)
                         const { monthFormattedDate, weekDayFormattedDate } = formatDate(forecastDate);
 

@@ -6,19 +6,31 @@
     ul {
         padding: 0;
         list-style: none;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
 
         li.list-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
 
+            font-size: 1em;
+
             .temperature {
                 display: flex;
                 align-items: center;
 
                 img {
-                    max-height: 5em;
+                    max-height: 4.2em;
                 }
+            }
+
+            .month-date,
+            .weekday {
+                color: var(--clr-txt-muted);
             }
 
             .weekday {

@@ -10,7 +10,11 @@
     }
 
     .temperature {
-        font-size: 3em;
+        font-size: 4em;
+    }
+
+    .footer {
+        color: var(--clr-txt-muted);
     }
 
     .spaced-row {
