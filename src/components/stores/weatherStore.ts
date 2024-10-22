@@ -69,13 +69,19 @@ const useWeatherStore = create<WeatherState>((set) => ({
                 const currentTime = new Date().getTime();
 
                 const filteredData = data.list.filter((item: { dt: number }) => {
-                    const itemTime = new Date(item.dt * 1000).getTime() + timezoneOffset; // Ajuste de zona horaria
-                    return itemTime >= currentTime; // Asegura que solo se capturan las predicciones futuras
-                }).slice(0, 8);
+                    const itemTime = new Date(item.dt * 1000).getTime() + timezoneOffset;
+                    return itemTime >= currentTime;
+                });
+    
+                // Si faltan pronósticos para completar las 8 horas, rellenar con el día siguiente
+                const numItemsToFill = 8 - filteredData.length;
+                const hourlyForecastData = filteredData.length >= 8
+                    ? filteredData.slice(0, 8) // Si ya hay suficientes datos, tomamos los primeros 8
+                    : [...filteredData, ...data.list.slice(0, numItemsToFill)]; // Rellenamos con el siguiente día si faltan datos
 
                 set({
                     fiveDayForecastData: data.list,
-                    hourlyForecastData: filteredData, // Almacena el pronóstico horario filtrado
+                    hourlyForecastData, // Almacena el pronóstico horario filtrado
                     loading: false,
                 })
             })

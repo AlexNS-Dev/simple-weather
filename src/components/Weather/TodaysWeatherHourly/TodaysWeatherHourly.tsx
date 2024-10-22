@@ -15,19 +15,18 @@ const TodaysWeatherHourly = () => {
             <div className="hours">
                 {hourlyForecastData.map((item, index) => {
                     // Utilizar dt_txt para obtener la fecha y hora
-                    const date = new Date(item.dt_txt); // Convertir la fecha de string a objeto Date
-                    const hours = date.getHours(); // Obtener la hora
-                    const formattedHour = hours % 12 === 0 ? 12 : hours % 12; // Formatear para 12 horas
-                    const ampm = hours >= 12 ? 'PM' : 'AM'; // Determinar AM/PM
+                    const date = new Date(item.dt_txt)
+                    const formattedHour = date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true }) // Formato 24h "HH:MM"
+                    // const ampm = date.getHours() >= 12 ? 'PM' : 'AM'
 
                     return (
-                        <div className="hour" key={index}> {/* Añadir key para optimización */}
+                        <div className="hour" key={index}>
                             <Card
                                 className='panel'
                                 padding='1.5em'
                                 backgroundColor='var(--card-bg)'
                             >
-                                <span>{formattedHour} {ampm}</span>
+                                <span>{formattedHour}</span>
 
                                 <span style={{display: 'flex', flexDirection: 'row', gap: '0'}}>
                                     <img
