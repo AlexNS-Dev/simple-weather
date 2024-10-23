@@ -23,9 +23,6 @@ function WeatherApp() {
         }
     }, [location])
 
-    console.log(currentLocation);
-    
-
     return (
         <div className="WeatherApp">
             <Header />
