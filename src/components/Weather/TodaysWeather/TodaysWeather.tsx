@@ -8,6 +8,7 @@ const TodaysWeather = () => {
     const currentWeatherData = useWeatherStore((state) => state.currentWeatherData)
     const fetchCurrentWeather = useWeatherStore((state) => state.fetchCurrentWeather)
     const currentLocation = useWeatherStore((state) => state.currentLocation)
+    const setLocation = useWeatherStore((state) => state.setLocation)
 
     useEffect(() => {
         // Obtener la ubicación actual del usuario
@@ -16,6 +17,7 @@ const TodaysWeather = () => {
                 (position) => {
                     const { latitude, longitude } = position.coords;
                     fetchCurrentWeather({ lat: latitude, lon: longitude });
+                    setLocation({ lat: latitude, lon: longitude })
                 },
                 (error) => {
                     console.warn("Error getting current location:", error);

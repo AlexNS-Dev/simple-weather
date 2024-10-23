@@ -35,7 +35,7 @@
   }
 }
 
-.App {
+.WeatherApp {
   height: 100dvh;
   width: 100dvw;
   overflow: hidden;
@@ -67,7 +67,7 @@
 }
 
 @media only screen and (max-width: 1000px) {
-  .App {
+  .WeatherApp {
     main {
       grid-template-columns: max-content auto;
     }
@@ -75,7 +75,7 @@
 }
 
 @media only screen and (max-width: 450px) {
-  .App {
+  .WeatherApp {
     main {
       grid-template-columns: auto;
     }

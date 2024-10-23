@@ -3,6 +3,7 @@ import { CurrentWeatherData, ForecastData } from '../../types';
 
 const apiKey = import.meta.env.VITE_OW_API_KEY
 const apiBaseUrl = import.meta.env.VITE_OW_BASE_URL
+const geoApiBaseUrl = import.meta.env.VITE_OW_GEO_BASE_URL
 
 interface WeatherState {
     currentWeatherData: CurrentWeatherData | null,
@@ -11,7 +12,7 @@ interface WeatherState {
     loading: boolean,
     error: string | null,
     currentLocation: string,
-    setLocation: (location: string) => void,
+    setLocation: (location: string | { lat: number, lon: number }) => Promise<boolean>,
     fetchCurrentWeather: (location: string | { lat: number, lon: number }) => void,
     fetchFiveDayForecast: (location: string | { lat: number, lon: number }) => void,
 }
@@ -23,7 +24,41 @@ const useWeatherStore = create<WeatherState>((set) => ({
     loading: false,
     error: null,
     currentLocation: 'Barcelona',
-    setLocation: (location) => set({ currentLocation: location }),
+    setLocation: async (location) => {
+        set({ loading: true, error: null })
+        let url;
+
+        if (typeof location === 'string') {
+            // Construir la URL para búsqueda directa
+            url = `${geoApiBaseUrl}/direct?q=${location}&limit=1&appid=${apiKey}`
+        } else {
+            // Construir la URL para búsqueda inversa
+            const { lat, lon } = location;
+            url = `${geoApiBaseUrl}/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apiKey}`
+        }
+
+        return fetch(url)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch location data')
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data && data.length > 0) {
+                    const locationName = data[0].name
+                    set({ currentLocation: locationName, loading: false })
+                    return true // Ubicación válida
+                } else {
+                    throw new Error('Location not found')
+                }
+            })
+            .catch((err) => {
+                set({ error: err.message, loading: false })
+                console.error("Location change failed:", err.message)
+                return false // Ubicación no válida
+            });
+    },
     fetchCurrentWeather: async (location) => {
         set({ loading: true, error: null })
         try {
@@ -72,7 +107,7 @@ const useWeatherStore = create<WeatherState>((set) => ({
                     const itemTime = new Date(item.dt * 1000).getTime() + timezoneOffset;
                     return itemTime >= currentTime;
                 });
-    
+
                 // Si faltan pronósticos para completar las 8 horas, rellenar con el día siguiente
                 const numItemsToFill = 8 - filteredData.length;
                 const hourlyForecastData = filteredData.length >= 8

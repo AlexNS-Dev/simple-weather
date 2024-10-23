@@ -4,19 +4,30 @@ import { IoSearch } from 'react-icons/io5'
 import { TbCurrentLocation } from 'react-icons/tb'
 import ImpulseSpinnerWrapper from '../../wrappers/ImpulseSpinnerWrapper'
 import useWeatherStore from '../stores/weatherStore'
+import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
     const [inputValue, setInputValue] = useState<string>('');
     const searchInput = useRef<HTMLInputElement | null>(null)
 
+    const currentLocation = useWeatherStore((state) => state.currentLocation)
     const setLocation = useWeatherStore((state) => state.setLocation)
     const loading = useWeatherStore((state) => state.loading)
+    const navigate = useNavigate()
 
     const handleSearch = () => {
-        if (inputValue.trim()) {
+        if (inputValue.trim() && currentLocation.toLocaleLowerCase() !== inputValue.trim().toLocaleLowerCase()) {
             setLocation(inputValue)
-            setInputValue('')
+                .then(success => {
+                    if (success) {
+                        const formattedLocation = inputValue.trim().split(' ')
+                            .map(word => word.toLocaleLowerCase())
+                            .join('-');
+                        navigate(`/weather/${formattedLocation}`);
+                    }
+                })
         }
+        setInputValue('')
     }
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

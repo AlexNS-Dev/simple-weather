@@ -9,6 +9,7 @@ const FiveDayForecast = () => {
     const forecastData = useWeatherStore((state) => state.fiveDayForecastData)
     const fetchForecast = useWeatherStore((state) => state.fetchFiveDayForecast)
     const currentLocation = useWeatherStore((state) => state.currentLocation)
+    const setLocation = useWeatherStore((state) => state.setLocation)
 
     const formatDate = (date: Date) => {
         const monthFormattedDate = date.toLocaleDateString(undefined, {
@@ -28,6 +29,7 @@ const FiveDayForecast = () => {
                 (position) => {
                     const { latitude, longitude } = position.coords;
                     fetchForecast({ lat: latitude, lon: longitude });
+                    setLocation({ lat: latitude, lon: longitude })
                 },
                 (error) => {
                     console.warn("Error getting current location:", error);
