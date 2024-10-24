@@ -29,7 +29,7 @@ const Header = () => {
                     // Navega a la URL usando el `currentLocation` actualizado y formateado
                     navigate(`/weather/${formattedLocation}`)
                 }
-            });
+            })
         }
         setInputValue('')
     }
