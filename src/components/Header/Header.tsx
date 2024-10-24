@@ -17,15 +17,19 @@ const Header = () => {
 
     const handleSearch = () => {
         if (inputValue.trim() && currentLocation.toLocaleLowerCase() !== inputValue.trim().toLocaleLowerCase()) {
-            setLocation(inputValue)
-                .then(success => {
-                    if (success) {
-                        const formattedLocation = inputValue.trim().split(' ')
-                            .map(word => word.toLocaleLowerCase())
-                            .join('-');
-                        navigate(`/weather/${formattedLocation}`);
-                    }
-                })
+            setLocation(inputValue).then(success => {
+                if (success) {
+                    // Accede al currentLocation actualizado después de que `setLocation` complete
+                    const updatedLocation = useWeatherStore.getState().currentLocation
+
+                    const formattedLocation = updatedLocation.trim().split(' ')
+                        .map(word => word.toLocaleLowerCase())
+                        .join('-'); // Formatea la URL tipo: `vilanova-del-cami`
+
+                    // Navega a la URL usando el `currentLocation` actualizado y formateado
+                    navigate(`/weather/${formattedLocation}`)
+                }
+            });
         }
         setInputValue('')
     }
